@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>npm安裝package時到底該用global還是local？ | 技術狂想曲</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近有人問起npm在install package時到底何時用global？何時不用？
+讓我們來看一下兩者的差異：">
+<meta property="og:type" content="website">
+<meta property="og:title" content="npm安裝package時到底該用global還是local？">
+<meta property="og:url" content="http://aaronchuo.github.io/2014/12/2/install-globally-or-locally-in-npm/">
+<meta property="og:site_name" content="技術狂想曲">
+<meta property="og:description" content="最近有人問起npm在install package時到底何時用global？何時不用？
+讓我們來看一下兩者的差異：">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="npm安裝package時到底該用global還是local？">
+<meta name="twitter:description" content="最近有人問起npm在install package時到底何時用global？何時不用？
+讓我們來看一下兩者的差異：">
+
+  
+    <link rel="alternative" href="/atom.xml" title="技術狂想曲" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">技術狂想曲</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Engineer, Designer, Talkr!</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://aaronchuo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-install-globally-or-locally-in-npm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/2/install-globally-or-locally-in-npm/" class="article-date">
+  <time datetime="2014-12-02T06:23:39.000Z" itemprop="datePublished">12月 2 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Development/">Development</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      npm安裝package時到底該用global還是local？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近有人問起npm在install package時到底何時用global？何時不用？</p>
+<p>讓我們來看一下兩者的差異：<br><a id="more"></a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>npm install [<span class="constant">PACKAGE_NAME</span>]</div></pre></td></tr></table></figure>
+
+<p>Local Install會將Module放到目前所在目錄的<code>/node_modules</code>資料夾下，如果該資料夾不存在，則會自動建立。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>npm install -g [<span class="constant">PACKAGE_NAME</span>]</div></pre></td></tr></table></figure>
+
+<p>Global Install通常將Module放在<code>/usr/local</code>路徑下，會建立兩個資料夾：<code>/lib</code>和<code>/bin</code>。</p>
+<h2 id="兩者使用時機">兩者使用時機</h2>
+<ul>
+<li><p>使用local安裝：該專案資料夾裡的程式碼可用<code>require()</code>引入Module。</p>
+<ul>
+<li>例：<code>var mocha = require(&#39;mocha&#39;);</code></li>
+<li>適用於該專案程式碼需要引入的Module。</li>
+<li>像特定的Library、Vendor。</li>
+</ul>
+</li>
+<li><p>使用global安裝：可在命令列（Terminal / Command）裡直接使用Module指令。</p>
+<ul>
+<li>例：<code>$ mocha test/helloSpec.js</code></li>
+<li>適用於在命令列會頻繁使用的Module。</li>
+<li>像開發必備的單元測試、程式編譯。</li>
+</ul>
+</li>
+</ul>
+<h2 id="總結">總結</h2>
+<p>npm是NodeJS中擁有強大模組管理能力的機制，適時地善用Global安裝，可以為命令列帶來更便利且簡短的指令，當然也可以透過Local安裝在命令列使用模組指令（例：<code>$ ./node_modules/mocha test/helloSpec.js</code>），只是路徑比較長就是了，尤其像跑測試的指令是幾乎每個專案都會用到，直接安裝於Global，就不用每次在專案中再安裝一次才能執行跑測試。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://aaronchuo.github.io/2014/12/2/install-globally-or-locally-in-npm/" data-id="q7p7h83imkts9bqt" class="article-share-link">Share</a>
+      
+        <a href="http://aaronchuo.github.io/2014/12/2/install-globally-or-locally-in-npm/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/12/2/why-you-need-gulp/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">為你的團隊導入Gulp</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Development/">Development</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Gulp/" style="font-size: NaNpx;">Gulp</a><a href="/tags/npm/" style="font-size: NaNpx;">npm</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Aaron Chuo
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'crazychuo';
+  
+  var disqus_url = 'http://aaronchuo.github.io/2014/12/2/install-globally-or-locally-in-npm/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>
